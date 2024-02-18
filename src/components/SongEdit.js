@@ -1,5 +1,5 @@
 import { useState } from "react";
-function SongEdit({ song, onEdit }) {
+function SongEdit({ song, onSubmit }) {
   const [editedSong, setEditedSong] = useState(song);
   console.log(editedSong);
   const handleChange = (e) => {
@@ -11,8 +11,8 @@ function SongEdit({ song, onEdit }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    onSubmit(song._id, editedSong);
     console.log("New editedSong", editedSong);
-    onEdit(song._id, editedSong);
 
     // onCreate(editedSong);
     // setEditedSong({

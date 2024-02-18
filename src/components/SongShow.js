@@ -1,14 +1,25 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Box, Heading, Text, Button } from "rebass";
 import SongEdit from "./SongEdit";
+import { deleteSongRequest } from "../redux/songSlice";
 
 function SongShow({ song, onDelete, onEdit }) {
   const [showEdit, setShowEdit] = useState(false);
-  const handleDelete = () => {
-    onDelete(song._id);
+  const dispatch = useDispatch();
+
+  const handleDeleteClick = () => {
+    // onDelete(song._id);
+    dispatch(deleteSongRequest(song._id));
   };
-  const handleEdit = () => {
+  const handleEditClick = (id, newSong) => {
     setShowEdit(!showEdit);
+    onEdit(id, newSong);
+  };
+
+  const handleSubmit = (id, newSong) => {
+    setShowEdit(false);
+    onEdit(id, newSong);
   };
 
   let content = (
@@ -25,12 +36,12 @@ function SongShow({ song, onDelete, onEdit }) {
       </Heading>
       <Text>Album: {song.album}</Text>
       <Text>Genre: {song.genre}</Text>
-      <Button onClick={handleEdit}>Edit</Button>
-      <Button onClick={handleDelete}>Delete</Button>
+      <Button onClick={handleEditClick}>Edit</Button>
+      <Button onClick={handleDeleteClick}>Delete</Button>
     </Box>
   );
   if (showEdit) {
-    content = <SongEdit song={song} onEdit={onEdit} />;
+    content = <SongEdit onSubmit={handleSubmit} song={song} />;
   }
   return <>{content}</>;
 }

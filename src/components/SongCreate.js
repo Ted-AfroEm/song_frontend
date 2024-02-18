@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addSongRequest } from "../redux/songSlice";
 
-function SongCreate({ onCreate }) {
+function SongCreate() {
+  const dispatch = useDispatch();
   const [newSong, setNewSong] = useState({
     title: "",
     artist: "",
@@ -18,7 +21,7 @@ function SongCreate({ onCreate }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCreate(newSong);
+    dispatch(addSongRequest(newSong));
     setNewSong({
       title: "",
       artist: "",
